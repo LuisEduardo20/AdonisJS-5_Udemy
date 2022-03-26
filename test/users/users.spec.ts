@@ -4,7 +4,7 @@ import supertest from 'supertest';
 const BASE_URL = `http://${process.env.HOST}:${process.env.PORT}`;
 
 test.group('User', () => {
-  test.only('It should create an user', async (assert) => {
+  test('It should create an user', async (assert) => {
     const userPayload = {
       email: 'test@mail.com ',
       username: 'test',
@@ -17,9 +17,10 @@ test.group('User', () => {
     assert.exists(body.user, 'User undefined');
     assert.exists(body.user.id, 'Id undefined');
     assert.equal(body.user.email, userPayload.email);
-    assert.equal(body.user.password, userPayload.password);
+    assert.equal(body.user.username, userPayload.username);
     assert.equal(body.user.avatar, userPayload.avatar);
-
-    // assert.isTrue(true)
+    assert.notExists(body.user.password, 'Password find');
   });
+
+  test('It should return 409 when email already in use', async (assert) => {});
 });
